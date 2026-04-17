@@ -83,6 +83,16 @@ const kittyBanner = String.raw` /\_/\\
 ( o.o )
  > ^ <`;
 
+const duckBanner = String.raw`  __
+<(o )
+ (  )
+  ^^`;
+
+const pigBanner = String.raw` ^-----^
+( 0 0 )
+ (   )
+  |||||`;
+
 export const HomeNotConnected = () => {
   return (
     <ViewBox>
@@ -99,6 +109,14 @@ export const HomeNotConnected = () => {
           <div className="ascii-card">
             <span className="ascii-label">Kitty</span>
             <pre>{kittyBanner}</pre>
+          </div>
+          <div className="ascii-card">
+            <span className="ascii-label">Duck</span>
+            <pre>{duckBanner}</pre>
+          </div>
+          <div className="ascii-card">
+            <span className="ascii-label">Pig</span>
+            <pre>{pigBanner}</pre>
           </div>
         </div>
         <ParMd>Connect a wallet to:</ParMd>
