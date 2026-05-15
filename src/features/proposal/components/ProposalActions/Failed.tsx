@@ -14,15 +14,15 @@ import { VoteBar } from '../VoteBar';
 
 const getFailReason = ({
   proposal,
+  proposalVoteTotal,
   userApproved,
   userVotePower,
 }: {
   proposal: ProposalItem;
+  proposalVoteTotal: number;
   userApproved?: boolean;
   userVotePower?: string;
 }): string | undefined => {
-  const proposalVoteTotal = getProposalVoteTotal(proposal);
-
   if (
     !checkHasQuorum({
       yesVotes: Number(proposal.yesBalance),
@@ -58,10 +58,11 @@ export const Failed = ({ proposal }: { proposal: ProposalItem }) => {
     () =>
       getFailReason({
         proposal,
+        proposalVoteTotal,
         userApproved: userVoteData?.approved,
         userVotePower: userVoteData?.balance,
       }),
-    [proposal, userVoteData]
+    [proposal, proposalVoteTotal, userVoteData]
   );
 
   return (
