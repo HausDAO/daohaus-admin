@@ -1,7 +1,12 @@
 import { useMemo } from 'react';
 import { useAccount } from 'wagmi';
 
-import { checkHasQuorum, formatShares, roundedPercentage } from '@/lib/utils';
+import {
+  checkHasQuorum,
+  formatShares,
+  getProposalVoteTotal,
+  roundedPercentage,
+} from '@/lib/utils';
 import type { ProposalItem } from '@/lib/dao-hooks';
 
 import { ActionTemplate, Verdict } from './ActionPrimitives';
@@ -16,11 +21,13 @@ const getFailReason = ({
   userApproved?: boolean;
   userVotePower?: string;
 }): string | undefined => {
+  const proposalVoteTotal = getProposalVoteTotal(proposal);
+
   if (
     !checkHasQuorum({
       yesVotes: Number(proposal.yesBalance),
       quorumPercent: Number(proposal.dao.quorumPercent),
-      totalShares: Number(proposal.dao.totalShares),
+      totalShares: proposalVoteTotal,
     })
   ) {
     return 'Quorum not met';
@@ -33,10 +40,11 @@ const getFailReason = ({
 
 export const Failed = ({ proposal }: { proposal: ProposalItem }) => {
   const { address } = useAccount();
+  const proposalVoteTotal = getProposalVoteTotal(proposal);
 
   const percentNo = roundedPercentage(
     Number(proposal.noBalance),
-    Number(proposal.dao.totalShares)
+    proposalVoteTotal
   );
 
   const userVoteData = useMemo(() => {

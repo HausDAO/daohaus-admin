@@ -1,5 +1,6 @@
 import { ProposalItem } from '@/lib/dao-hooks';
 import { nowInSeconds } from './general';
+import { getProposalVoteTotal } from './proposals';
 import { checkHasQuorum } from './units';
 import { PROPOSAL_STATUS } from '../constants/proposals';
 
@@ -18,7 +19,7 @@ export type ProposalStatus =
 const passedQuorum = (proposal: ProposalItem): boolean =>
   checkHasQuorum({
     yesVotes: Number(proposal.yesBalance),
-    totalShares: Number(proposal.dao.totalShares),
+    totalShares: getProposalVoteTotal(proposal),
     quorumPercent: Number(proposal.dao.quorumPercent),
   });
 

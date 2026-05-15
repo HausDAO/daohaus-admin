@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useAccount } from 'wagmi';
 
-import { formatShares, roundedPercentage } from '@/lib/utils';
+import { formatShares, getProposalVoteTotal, roundedPercentage } from '@/lib/utils';
 import type { ProposalItem } from '@/lib/dao-hooks';
 
 import { ActionTemplate, Verdict } from './ActionPrimitives';
@@ -9,6 +9,7 @@ import { VoteBar } from '../VoteBar';
 
 export const Passed = ({ proposal }: { proposal: ProposalItem }) => {
   const { address } = useAccount();
+  const proposalVoteTotal = getProposalVoteTotal(proposal);
 
   const userVoteData = useMemo(() => {
     if (!address || !proposal.votes) return undefined;
@@ -19,7 +20,7 @@ export const Passed = ({ proposal }: { proposal: ProposalItem }) => {
 
   const percentYes = roundedPercentage(
     Number(proposal.yesBalance),
-    Number(proposal.dao.totalShares)
+    proposalVoteTotal
   );
 
   const userVoteDisplay =

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { mintDark, slateDark, tomatoDark } from '@radix-ui/colors';
 
 import { Progress } from '@/lib/ui';
-import { percentage } from '@/lib/utils';
+import { getProposalVoteTotal, percentage } from '@/lib/utils';
 import type { ProposalItem } from '@/lib/dao-hooks';
 
 const VoteBarBox = styled.div`
@@ -12,24 +12,20 @@ const VoteBarBox = styled.div`
 `;
 
 export const VoteBar = ({ proposal }: { proposal: ProposalItem }) => {
+  const proposalVoteTotal = getProposalVoteTotal(proposal);
+
   const sections = useMemo(
     () => [
       {
-        percentage: `${percentage(
-          Number(proposal.yesBalance),
-          Number(proposal.dao.totalShares)
-        )}%`,
+        percentage: `${percentage(Number(proposal.yesBalance), proposalVoteTotal)}%`,
         color: mintDark.mint10,
       },
       {
-        percentage: `${percentage(
-          Number(proposal.noBalance),
-          Number(proposal.dao.totalShares)
-        )}%`,
+        percentage: `${percentage(Number(proposal.noBalance), proposalVoteTotal)}%`,
         color: tomatoDark.tomato10,
       },
     ],
-    [proposal]
+    [proposal, proposalVoteTotal]
   );
 
   return (
