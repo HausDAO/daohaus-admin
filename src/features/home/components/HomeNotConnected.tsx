@@ -1,6 +1,21 @@
 import styled from "styled-components";
 import { H1, ParMd, ParXl } from "@/lib/ui";
 
+const MONKEY_ASCII = String.raw`
+  .-"-.  .-"-. 
+ / .-- \/ .-- \
+| |    || |    |
+| |.-""|| |.-""|
+\ \__/\ \\ \__/ /
+ '.__.'  '.__.'
+ / /  _   _  \ \
+| |  (o) (o)  | |
+| |    .-.    | |
+\ \   (___)  / /
+ '._'-.___.-'_.'
+    '-._____.-'
+`;
+
 const ViewBox = styled.div`
   width: 100%;
   min-height: 40rem;
@@ -20,6 +35,10 @@ const ViewBox = styled.div`
     font-size: 2rem;
     margin-bottom: 2.4rem;
     font-weight: 700;
+  }
+  .monkey-wrap {
+    margin-bottom: 2.4rem;
+    overflow-x: auto;
   }
   pre {
     margin: 0;
@@ -54,6 +73,9 @@ export const HomeNotConnected = () => {
         <ParXl className="tag-line">
           Schelling point for all your DAO activity
         </ParXl>
+        <div className="monkey-wrap">
+          <pre aria-label="ASCII art monkey">{MONKEY_ASCII}</pre>
+        </div>
         <ParMd>Connect a wallet to:</ParMd>
         <ul>
           <li>
