@@ -74,7 +74,7 @@ export const HomeNotConnected = () => {
           Schelling point for all your DAO activity
         </ParXl>
         <div className="monkey-wrap">
-          <pre aria-label="ASCII art monkey">{MONKEY_ASCII}</pre>
+          <pre aria-hidden="true">{MONKEY_ASCII}</pre>
         </div>
         <ParMd>Connect a wallet to:</ParMd>
         <ul>
