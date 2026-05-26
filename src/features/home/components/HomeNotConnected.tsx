@@ -21,6 +21,14 @@ const ViewBox = styled.div`
     margin-bottom: 2.4rem;
     font-weight: 700;
   }
+  .poem {
+    margin: 2.4rem 0;
+    padding-left: 1.6rem;
+    border-left: 0.4rem solid ${({ theme }) => theme.secondary.step9};
+  }
+  .poem p {
+    margin-bottom: 0.4rem;
+  }
   pre {
     margin: 0;
     font-size: 1.4rem;
@@ -54,6 +62,13 @@ export const HomeNotConnected = () => {
         <ParXl className="tag-line">
           Schelling point for all your DAO activity
         </ParXl>
+        <div className="poem" aria-label="Hub limerick">
+          <ParMd>There once was a hub for the crew,</ParMd>
+          <ParMd>Where proposals and profiles all flew.</ParMd>
+          <ParMd>Connect up your key,</ParMd>
+          <ParMd>And soon you will see,</ParMd>
+          <ParMd>Every DAO that is waiting for you.</ParMd>
+        </div>
         <ParMd>Connect a wallet to:</ParMd>
         <ul>
           <li>
