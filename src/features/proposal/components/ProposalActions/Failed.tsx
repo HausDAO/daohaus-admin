@@ -1,7 +1,12 @@
 import { useMemo } from 'react';
 import { useAccount } from 'wagmi';
 
-import { checkHasQuorum, formatShares, roundedPercentage } from '@/lib/utils';
+import {
+  checkHasQuorum,
+  formatShares,
+  getProposalVoteTotal,
+  roundedPercentage,
+} from '@/lib/utils';
 import type { ProposalItem } from '@/lib/dao-hooks';
 
 import { ActionTemplate, Verdict } from './ActionPrimitives';
@@ -9,10 +14,12 @@ import { VoteBar } from '../VoteBar';
 
 const getFailReason = ({
   proposal,
+  proposalVoteTotal,
   userApproved,
   userVotePower,
 }: {
   proposal: ProposalItem;
+  proposalVoteTotal: number;
   userApproved?: boolean;
   userVotePower?: string;
 }): string | undefined => {
@@ -20,7 +27,7 @@ const getFailReason = ({
     !checkHasQuorum({
       yesVotes: Number(proposal.yesBalance),
       quorumPercent: Number(proposal.dao.quorumPercent),
-      totalShares: Number(proposal.dao.totalShares),
+      totalShares: proposalVoteTotal,
     })
   ) {
     return 'Quorum not met';
@@ -33,10 +40,11 @@ const getFailReason = ({
 
 export const Failed = ({ proposal }: { proposal: ProposalItem }) => {
   const { address } = useAccount();
+  const proposalVoteTotal = getProposalVoteTotal(proposal);
 
   const percentNo = roundedPercentage(
     Number(proposal.noBalance),
-    Number(proposal.dao.totalShares)
+    proposalVoteTotal
   );
 
   const userVoteData = useMemo(() => {
@@ -50,10 +58,11 @@ export const Failed = ({ proposal }: { proposal: ProposalItem }) => {
     () =>
       getFailReason({
         proposal,
+        proposalVoteTotal,
         userApproved: userVoteData?.approved,
         userVotePower: userVoteData?.balance,
       }),
-    [proposal, userVoteData]
+    [proposal, proposalVoteTotal, userVoteData]
   );
 
   return (
