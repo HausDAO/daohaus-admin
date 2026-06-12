@@ -75,7 +75,7 @@ export const FormFooter = ({
 };
 
 const getStatusColor = (status: StatusMsg, theme: Theme) => {
-  if (status === StatusMsg.PollSuccess) {
+  if (status === StatusMsg.PollSuccess || status === StatusMsg.TxSuccess) {
     return theme.success.step9;
   }
   if (
@@ -90,7 +90,7 @@ const getStatusColor = (status: StatusMsg, theme: Theme) => {
 };
 
 const getStatusElement = (status: StatusMsg, theme: Theme) => {
-  if (status === StatusMsg.PollSuccess) {
+  if (status === StatusMsg.PollSuccess || status === StatusMsg.TxSuccess) {
     return <Check color={theme.success.step9} size={22.5} />;
   }
   if (
