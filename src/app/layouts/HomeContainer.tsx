@@ -1,9 +1,14 @@
+import { ReactNode } from 'react';
 import { Outlet } from 'react-router-dom';
 import { H4 } from '@/lib/ui';
 import { AppLayout } from './AppLayout';
 import { ErrorBoundary } from '@/app/components/ErrorBoundary';
 
-export const HomeContainer = () => {
+type HomeContainerProps = {
+  children?: ReactNode;
+};
+
+export const HomeContainer = ({ children }: HomeContainerProps) => {
   return (
     <AppLayout
       leftNav={<H4>DAOhaus Admin</H4>}
@@ -13,7 +18,7 @@ export const HomeContainer = () => {
       ]}
     >
       <ErrorBoundary>
-        <Outlet />
+        {children ?? <Outlet />}
       </ErrorBoundary>
     </AppLayout>
   );

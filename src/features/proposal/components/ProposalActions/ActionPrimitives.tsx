@@ -13,6 +13,7 @@ import {
 } from "@/lib/ui";
 import {
   checkHasQuorum,
+  getProposalVoteTotal,
   percentage,
   getGasCostEstimate,
   toWholeUnits,
@@ -124,9 +125,10 @@ export const VotingResults = ({
   isVoting: boolean;
   proposal: ProposalItem;
 }) => {
+  const proposalVoteTotal = getProposalVoteTotal(proposal);
   const hasQuorum = checkHasQuorum({
     yesVotes: Number(proposal.yesBalance),
-    totalShares: Number(proposal.dao.totalShares),
+    totalShares: proposalVoteTotal,
     quorumPercent: Number(proposal.dao.quorumPercent),
   });
   const didPass =
@@ -177,9 +179,10 @@ export const ActionTemplate = ({
   }, [helperDisplay, theme]);
 
   const hideQuorum = proposal.dao.quorumPercent === "0";
+  const proposalVoteTotal = getProposalVoteTotal(proposal);
   const yesPerc = percentage(
     Number(proposal.yesBalance),
-    Number(proposal.dao.totalShares),
+    proposalVoteTotal,
   );
 
   return (

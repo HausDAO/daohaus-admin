@@ -92,6 +92,7 @@ export const FormBuilder = ({
             setStatus(
               form.tx?.disablePoll ? StatusMsg.PollSuccess : StatusMsg.TxSuccess
             );
+            setIsLoading(false);
             lifeCycleFns?.onTxSuccess?.(...args);
             defaultToast({
               title: StatusMsg.TxSuccess,

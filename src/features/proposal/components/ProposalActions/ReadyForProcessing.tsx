@@ -6,6 +6,7 @@ import { GatedButton, useBreakpoint, useToast, widthQuery } from '@/lib/ui';
 import {
   checkHasQuorum,
   createViemClient,
+  getProposalVoteTotal,
   getProcessingGasLimit,
   handleErrorMessage,
   roundedPercentage,
@@ -148,16 +149,17 @@ export const ReadyForProcessing = ({
       : 'You are not connected to the same network as the DAO';
 
   const isNotLoading = !isLoading ? true : 'Please wait for transaction to complete';
+  const proposalVoteTotal = getProposalVoteTotal(proposal);
 
   const percentYes = roundedPercentage(
     Number(proposal.yesBalance),
-    Number(proposal.dao.totalShares)
+    proposalVoteTotal
   );
 
   const failedQuorum = !checkHasQuorum({
     yesVotes: Number(proposal.yesBalance),
     quorumPercent: Number(proposal.dao.quorumPercent),
-    totalShares: Number(proposal.dao.totalShares),
+    totalShares: proposalVoteTotal,
   });
 
   return (
