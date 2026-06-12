@@ -79,11 +79,11 @@ export const standardGraphPoll: Poll = async ({
         clearInterval(pollId);
       }
     } else {
-      onPollTimeout?.(
-        new Error(
-          'Transaction poll ran out of tries. There could be issues with the subgraph.'
-        )
+      clearInterval(pollId);
+      const timeoutError = new Error(
+        'Transaction poll ran out of tries. There could be issues with the subgraph.'
       );
+      onPollTimeout?.(timeoutError);
     }
   }, interval);
 };

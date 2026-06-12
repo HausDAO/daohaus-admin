@@ -71,10 +71,16 @@ export const executeTx = async (args: {
     lifeCycleFns?.onTxSuccess?.(receipt, txHash, appState);
 
     if (!tx.disablePoll) {
+      const handlePollFailure = (error: unknown) => {
+        lifeCycleFns?.onPollError?.(error);
+        console.log('**Poll Error**');
+        setTransactions((prev) => ({ ...prev, [txHash]: { ...tx, status: 'pollFailed' } }));
+      };
+
       standardGraphPoll({
         poll: tx?.customPoll?.fetch || pollLastTX,
         test: tx?.customPoll?.test || testLastTX,
-        variables: [{ chainId, txHash }],
+        variables: { chainId, txHash },
         onPollStart() {
           lifeCycleFns?.onPollStart?.();
           console.log('**Polling**');
@@ -84,11 +90,8 @@ export const executeTx = async (args: {
           console.log('**Poll Successful**');
           setTransactions((prev) => ({ ...prev, [txHash]: { ...tx, status: 'success' } }));
         },
-        onPollError(error) {
-          lifeCycleFns?.onPollError?.(error);
-          console.log('**Poll Error**');
-          setTransactions((prev) => ({ ...prev, [txHash]: { ...tx, status: 'pollFailed' } }));
-        },
+        onPollError: handlePollFailure,
+        onPollTimeout: handlePollFailure,
       });
     }
     return { receipt, txHash };
@@ -214,6 +217,8 @@ export async function prepareTX(args: {
     });
     if (!publicClient) throw new Error('Public client not found');
 
+    // viem's inferred union is too large for this dynamic tx builder input.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { request } = await (publicClient as any).simulateContract({
       account,
       address: address as `0x${string}`,
