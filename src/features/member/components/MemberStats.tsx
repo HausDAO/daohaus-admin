@@ -117,7 +117,7 @@ function explorerTxUrl(chainId: string, txHash: string): string {
     "0x89": "https://polygonscan.com",
     "0xa": "https://optimistic.etherscan.io",
     "0xa4b1": "https://arbiscan.io",
-    "0x64": "https://gnosisscan.io",
+    "0x64": "https://gnosis.blockscout.com",
     "0x2105": "https://basescan.org",
     "0xa86a": "https://snowtrace.io",
   };
