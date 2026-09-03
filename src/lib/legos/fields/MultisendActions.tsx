@@ -250,7 +250,12 @@ const Action = ({ actionId, index }: { actionId: string; index: number; onDelete
   }, [customDataToggle, customData]);
 
   useEffect(() => {
-    if (noArgs) encodeAction({ ...values.tx?.[actionId]?.fields });
+    if (noArgs) {
+      encodeAction(
+        { ...values.tx?.[actionId]?.fields },
+        values.tx?.[actionId]?.data
+      );
+    }
   }, [noArgs, encodeAction, values, actionId]);
 
   useEffect(() => {
